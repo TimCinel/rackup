@@ -1,14 +1,13 @@
 #!/usr/bin/python
 from rollingBackup import *
 
-#rule
-week = 5 #keep at least 3 backups in the current week
-month = 8 #keep at least 4 backups in the current month
-year = 20 #keep at least 6 backups in a year
+#rule parameters
+week = 5 #keep backups at least 5 days back (independant of other backups)
+month = 8 #keep at least 8 backups in the current month (independant of other backups)
+year = 20 #keep at least 20 backups in a year (independant other backups)
 
 #backup file name pattern
-pattern = r'.+(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})\.sql' #name like 20110130.databasebackup.tar.gz
+pattern = r'.+(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})\.sql' #matches names like cryptech.20110130.sql
 
-
-#call
-rackup(year, month, week, pattern, '/home/tim/Desktop/backups/', 1)
+#do a dry run, ( dryRun = 0 ) to perform deletes
+rackup(year, month, week, pattern, '/home/tim/Desktop/backups/', dryRun = 1)
