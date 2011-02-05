@@ -95,10 +95,14 @@ def rackupWithRule(rule, namePattern, directory, today = date.today(), dryRun = 
     for filename in files:
         try:
             backupDate = namePattern.search(filename).groupdict()
+            if (len(backupDate['year']) < 4):
+                backupDate['year'] = int(backupDate['year']) + 2000
+
             instances.append(date(int(backupDate['year']), int(backupDate['month']), int(backupDate['day'])))
             backupFiles.append(filename)
             earliestYear = instances[-1].year if instances[-1].year < earliestYear else earliestYear
         except:
+            print "Error"
             pass
 
     filesAndDates = zip(backupFiles, instances)
@@ -117,7 +121,6 @@ def rackupWithRule(rule, namePattern, directory, today = date.today(), dryRun = 
         endAt = 0 if currentYear != latestYear else today.timetuple()[7]
 
         allDays.extend(spreadFilter(date(currentYear,1,1), spread, 0, endAt))
-        #allDays.extend(yearFilter(currentYear, yearSpread(date(currentYear,1,1), rule), startFrom=0, endAt=0 if currentYear != latestYear else today.timetuple()[7]))
         currentYear += 1
 
     ##########
